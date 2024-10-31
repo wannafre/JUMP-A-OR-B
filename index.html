@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设备识别跳转</title>
+    <script>
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                aPage: params.get('a') || '默认A页面URL', // 默认值
+                bPage: params.get('b') || '默认B页面URL'  // 默认值
+            };
+        }
+
+        function redirectToPage() {
+            const { aPage, bPage } = getQueryParams();
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+            // 检测 iOS 设备
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                window.location.href = bPage; // 跳转到 B 页面
+            }
+            // 检测 Android 设备
+            else if (/android/i.test(userAgent)) {
+                window.location.href = aPage; // 跳转到 A 页面
+            }
+            // 其他设备
+            else {
+                alert("未识别的设备类型");
+            }
+        }
+    </script>
+</head>
+<body onload="redirectToPage()">
+    <h1>正在识别设备...</h1>
+</body>
+</html>
